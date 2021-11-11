@@ -115,15 +115,17 @@ void main(void)
     vec2 thetaphi = uv * vec2(3.1415926535897932384626433832795, 1.5707963267948966192313216916398); 
     vec3 rayDirection = vec3(cos(thetaphi.y) * cos(thetaphi.x), sin(thetaphi.y), cos(thetaphi.y) * sin(thetaphi.x));
     vec3 col = vec3(0.0,0.0,0.0);
-    vec2 eggUV = 0.4*vec2(sin(5.*PI*uv.x+u_time)*.5+.5,cos(3.*PI*uv.y+u_time));
+    vec2 eggUV = 0.9*vec2(sin(5.*PI*uv.x+u_time)*.5+.5,cos(3.*PI*uv.x+u_time));
     //col += sin(step(HexDist(uv), .2));
     vec2 rotatedUV = rotate(uv,u_time);
-    float sdf = vessicaSDF(eggUV+rotatedUV, 0.9);
+    float sdf = vessicaSDF(eggUV+rotatedUV, 0.7);
     col += flip(fill(sdf,.2), step((uv.x+uv.y)*.7,0.));
     
     vec3 finalCol = col;
    finalCol += sin(rayDirection*PI+u_time)*.5+.5;
    finalCol.b += sin(finalCol.b+u_time);
+   finalCol.r += Xor(finalCol.g, 0.);
+   
    gl_FragColor = vec4(finalCol, 1.0);
 
 }
